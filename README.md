@@ -8,6 +8,28 @@ HisabAI is an open-source, local-first assistant for Indian freelancers and smal
 
 HisabAI reduces repetitive paperwork for freelancers, consultants and small businesses. Users can create invoice PDFs, manage client details and extract expense information from receipts. It is designed for people who need a simple, affordable alternative to complex accounting tools and prefer to keep their financial documents on their own computers.
 
+## Demo
+
+![Dashboard](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s1shntex76qhkwobibml.png)
+
+![Clients](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/m0bthymw5njdk6beo6k7.png)
+
+![Create Invoice](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/78qudfnqz543r0spwxye.png)
+
+![Generated Invoice](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a7bqwf9bgk4529uet4ss.png)
+
+![Scan Receipt](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/y0o12gxp495vipj5uk5z.png)
+
+![Review Extraction](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xau1ri0zpkgf9adrckhy.png)
+
+![Expenses](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gt7f30a8tupp7084u7za.png)
+
+![Settings](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/nk3hk3xjdm2sgsac1i2m.png)
+
+## Code
+Explore the source code, setup instructions and implementation:
+https://github.com/BharatwaleJain/HisabAI
+
 ## How I Built It
 
 Built with **Python, FastAPI, SQLite, Jinja2 and ReportLab**, HisabAI provides invoice generation, local record storage, receipt imports and CSV exports. For AI-powered receipt extraction, it uses the open-weight **Llama 3.1 8B** model through **Ollama**. A rule-based fallback is available when Ollama is disabled or unavailable. AI inference runs locally, without a remote AI provider configured.
