@@ -204,7 +204,7 @@ def heuristic_extract(text: str, filename: str) -> dict:
 def ollama_extract(text: str) -> Optional[dict]:
     if os.getenv("HISABAI_DISABLE_OLLAMA", "").lower() in {"1", "true", "yes"}:
         return None
-    model = os.getenv("HISABAI_MODEL", "llama3.1:8b")
+    model = os.getenv("HISABAI_MODEL", "gemma3:4b")
     schema = {
         "type": "object",
         "properties": {
@@ -457,7 +457,7 @@ def export_expenses():
 @app.get("/health")
 def health():
     ollama_ok = False
-    model = os.getenv("HISABAI_MODEL", "llama3.1:8b")
+    model = os.getenv("HISABAI_MODEL", "gemma3:4b")
     try:
         r = requests.get("http://127.0.0.1:11434/api/tags", timeout=1.5)
         ollama_ok = r.ok

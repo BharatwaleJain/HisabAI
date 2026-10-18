@@ -32,11 +32,14 @@ https://github.com/BharatwaleJain/HisabAI
 
 ## How I Built It
 
-Built with **Python, FastAPI, SQLite, Jinja2 and ReportLab**, HisabAI provides invoice generation, local record storage, receipt imports and CSV exports. For AI-powered receipt extraction, it uses the open-weight **Llama 3.1 8B** model through **Ollama**. A rule-based fallback is available when Ollama is disabled or unavailable. AI inference runs locally, without a remote AI provider configured.
+Built with **Python, FastAPI, SQLite, Jinja2 and ReportLab**, HisabAI provides invoice generation, local record storage, receipt imports and CSV exports. For AI-powered receipt extraction, it uses the open-weight **Gemma 3 4B** model through **Ollama**. A rule-based fallback is available when Ollama is disabled or unavailable. AI inference runs locally, without a remote AI provider configured.
 
 ## Why Does Open Innovation Matter?
 
 Open innovation makes AI more accessible to small businesses. Open-weight models and local inference allow users to experiment with AI without depending on paid hosted-model APIs or sending financial documents to remote AI services. Because the project is open source, developers can inspect, adapt and extend it with new models, document formats and features.
+
+## Prize Categories
+**Gemma — Best Use of Gemma:** HisabAI uses Google's open-weight Gemma 3 4B model through Ollama for local AI-assisted receipt and invoice data extraction. This helps freelancers and small businesses extract expense details while keeping AI inference on their own machine, without relying on a hosted AI API.
 
 ## Features
 
@@ -59,7 +62,7 @@ Open innovation makes AI more accessible to small businesses. Open-weight models
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-ollama pull llama3.1:8b
+ollama pull gemma3:4b
 uvicorn app:app --host 127.0.0.1 --port 8000
 ```
 
