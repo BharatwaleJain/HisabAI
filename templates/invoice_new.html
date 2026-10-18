@@ -1,0 +1,65 @@
+{% extends "base.html" %}{% block content %}
+{% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+<div class="content-grid invoice-grid">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Invoice details</h3>
+                <p>Enter the information, then review the PDF before issuing.</p>
+            </div><span class="pill">DRAFT</span>
+        </div>
+        <form method="post" action="/invoices/new" class="form">
+            <div class="form-row"><label>Invoice number<input name="invoice_number" required placeholder="INV-2026-001"
+                        value="INV-{{ today[:4] }}-001"></label><label>Invoice date<input type="date"
+                        name="invoice_date" required value="{{ today }}"></label></div>
+            <div class="form-row"><label>Due date<input type="date" name="due_date"></label><label>Saved client<select
+                        name="client_id" id="client-select">
+                        <option value="">Enter client below</option>{% for c in clients %}<option value="{{ c.id }}"
+                            data-name="{{ c.name }}" data-gstin="{{ c.gstin }}" data-address="{{ c.address }}"
+                            data-state="{{ c.state }}">{{ c.name }}</option>{% endfor %}
+                    </select></label></div>
+            <label>Client / recipient name<input name="client_name" id="client-name" required
+                    placeholder="Client or company name"></label>
+            <div class="form-row"><label>Client GSTIN<input name="client_gstin" id="client-gstin"
+                        placeholder="Optional"></label><label>Client state<input name="client_state" id="client-state"
+                        placeholder="e.g. Maharashtra"></label></div>
+            <label>Client address<textarea name="client_address" id="client-address" rows="2"
+                    placeholder="Billing address"></textarea></label>
+            <label>Item / service description<textarea name="description" required rows="2"
+                    placeholder="e.g. Website design and development services"></textarea><small class="hint">Enter
+                    invoice details carefully and verify the applicable tax treatment before issuing.</small></label>
+            <div class="form-row"><label>Taxable value (₹)<input type="number" name="taxable_value" required min="0"
+                        step="0.01" placeholder="40000.00"></label><label>GST rate (%)<select name="gst_rate">
+                        <option value="0">0%</option>
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="18" selected>18%</option>
+                        <option value="28">28%</option>
+                    </select></label></div>
+            <label>Tax mode<select name="tax_mode">
+                    <option value="intra">Intra-state: CGST + SGST</option>
+                    <option value="inter">Inter-state: IGST</option>
+                    <option value="none">No GST / not applicable</option>
+                </select><small class="hint">Choose only after verifying the applicable treatment. This selector does
+                    not determine place of supply or eligibility.</small></label>
+            <label>Notes / payment terms<textarea name="notes" rows="2"
+                    placeholder="Payment due in 15 days"></textarea></label>
+            <div class="form-actions"><button class="button primary">Create invoice & preview →</button></div>
+        </form>
+    </section>
+    <aside class="panel soft">
+        <h3>Before you finalize</h3>
+        <ul class="check-list">
+            <li>Confirm supplier and recipient details.</li>
+            <li>Verify the service classification and applicable rate.</li>
+            <li>Confirm intra-state vs inter-state treatment.</li>
+            <li>Review invoice numbering and mandatory particulars.</li>
+            <li>Check if e-invoicing applies to your business.</li>
+        </ul>
+    </aside>
+</div>
+<script>
+    const sel = document.getElementById('client-select');
+    sel?.addEventListener('change', () => { const o = sel.options[sel.selectedIndex]; if (!o.value) return; document.getElementById('client-name').value = o.dataset.name || ''; document.getElementById('client-gstin').value = o.dataset.gstin || ''; document.getElementById('client-address').value = o.dataset.address || ''; document.getElementById('client-state').value = o.dataset.state || ''; });
+</script>
+{% endblock %}

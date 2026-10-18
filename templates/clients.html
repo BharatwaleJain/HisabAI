@@ -1,0 +1,46 @@
+{% extends "base.html" %}{% block content %}
+<div class="content-grid">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Saved clients</h3>
+                <p>Reuse client details when drafting invoices.</p>
+            </div>
+        </div>{% if clients %}<div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>GSTIN</th>
+                        <th>State</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>{% for c in clients %}<tr>
+                        <td>{{ c.name }}<small>{{ c.address }}</small></td>
+                        <td>{{ c.gstin or "—" }}</td>
+                        <td>{{ c.state or "—" }}</td>
+                        <td>{{ c.email or "—" }}</td>
+                    </tr>{% endfor %}</tbody>
+            </table>
+        </div>{% else %}<div class="empty compact">
+            <p>No clients yet. Add one using the form.</p>
+        </div>{% endif %}
+    </section>
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Add a client</h3>
+                <p>Stored only in your local database.</p>
+            </div>
+        </div>
+        <form method="post" action="/clients" class="form"><label>Client name<input name="name" required
+                    placeholder="Client or company name"></label><label>GSTIN<input name="gstin"
+                    placeholder="Optional"></label><label>Address<textarea name="address" rows="3"></textarea></label>
+            <div class="form-row"><label>State<input name="state" placeholder="State"></label><label>Email<input
+                        type="email" name="email" placeholder="accounts@client.in"></label></div><button
+                class="button primary">Save client</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

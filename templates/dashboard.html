@@ -1,0 +1,113 @@
+{% extends "base.html" %}{% block content %}
+<section class="hero">
+    <div><span class="pill">✦ LOCAL AI BOOKKEEPING</span>
+        <h2>Your finances, without the cloud.</h2>
+        <p>Create GST-aware invoices, organize receipts, and keep business records on your own machine.</p>
+        <div class="hero-actions"><a class="button light" href="/invoices/new">Create an invoice →</a><a
+                class="button ghost-light" href="/expenses/import">Scan a receipt</a></div>
+    </div>
+    <div class="hero-art">
+        <div class="art-card"><span class="art-label">TOTAL INVOICES</span><strong>{{ invoice_count }}</strong>
+            <div class="art-line"></div><span class="art-label">OUTSTANDING (INR)</span><strong>₹{{ unpaid }}</strong>
+            <div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="art-orb"></div>
+    </div>
+</section>
+<section class="stats">
+    <div class="stat"><span class="stat-icon purple">▤</span>
+        <div><small>Invoices created</small><strong>{{ invoice_count }}</strong><span class="muted">All time</span>
+        </div>
+    </div>
+    <div class="stat"><span class="stat-icon orange">₹</span>
+        <div><small>Outstanding amount</small><strong>₹{{ unpaid }}</strong><span class="muted">Not marked paid</span>
+        </div>
+    </div>
+    <div class="stat"><span class="stat-icon green">⌁</span>
+        <div><small>Expense records</small><strong>{{ expenses|length }}</strong><span class="muted">Latest 5
+                shown</span></div>
+    </div>
+    <div class="stat"><span class="stat-icon blue">♙</span>
+        <div><small>Clients</small><strong>{{ client_count }}</strong><span class="muted">Saved profiles</span></div>
+    </div>
+</section>
+<section class="two-col">
+    <div class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Recent invoices</h3>
+                <p>Your latest billing activity</p>
+            </div><a href="/invoices/new" class="text-link">+ Create</a>
+        </div>
+        {% if invoices %}<div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice</th>
+                        <th>Client</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>{% for i in invoices %}<tr>
+                        <td><a class="row-link" href="/invoices/{{ i.id }}">{{ i.invoice_number }}</a><small>{{
+                                i.invoice_date }}</small></td>
+                        <td>{{ i.client_name }}</td>
+                        <td>₹{{ i.total }}</td>
+                        <td><span class="status {{ i.status|lower }}">{{ i.status }}</span></td>
+                    </tr>{% endfor %}</tbody>
+            </table>
+        </div>{% else %}<div class="empty"><span>▤</span><b>No invoices yet</b>
+            <p>Create your first invoice to get started.</p><a class="button primary" href="/invoices/new">Create
+                invoice</a>
+        </div>{% endif %}
+    </div>
+    <div class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Quick actions</h3>
+                <p>Get the busywork out of the way</p>
+            </div>
+        </div>
+        <div class="quick-list"><a href="/invoices/new"><span class="quick-icon purple">＋</span><span><b>Create GST
+                        invoice</b><small>Generate a PDF for your client</small></span><strong>→</strong></a><a
+                href="/expenses/import"><span class="quick-icon green">⌁</span><span><b>Scan a receipt</b><small>Extract
+                        fields using local AI</small></span><strong>→</strong></a><a href="/clients"><span
+                    class="quick-icon orange">♙</span><span><b>Add a client</b><small>Save details for next
+                        time</small></span><strong>→</strong></a><a href="/settings"><span
+                    class="quick-icon blue">⚙</span><span><b>Set up your business</b><small>Add address and
+                        GSTIN</small></span><strong>→</strong></a></div>
+    </div>
+</section>
+<section class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>Recent expenses</h3>
+            <p>Receipts and supplier invoices you have reviewed</p>
+        </div><a class="text-link" href="/expenses">View all →</a>
+    </div>{% if expenses %}<div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Vendor</th>
+                    <th>Invoice date</th>
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Extraction</th>
+                </tr>
+            </thead>
+            <tbody>{% for e in expenses %}<tr>
+                    <td>{{ e.vendor or "Unknown vendor" }}<small>{{ e.invoice_number or e.source_filename }}</small>
+                    </td>
+                    <td>{{ e.invoice_date or "—" }}</td>
+                    <td>{{ e.category }}</td>
+                    <td>₹{{ e.total }}</td>
+                    <td><span class="status {% if e.ai_used %}paid{% else %}unpaid{% endif %}">{{ "Local AI" if
+                            e.ai_used else "Local fallback" }}</span></td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>{% else %}<div class="empty compact">
+        <p>No expenses imported yet.</p><a class="text-link" href="/expenses/import">Import your first receipt →</a>
+    </div>{% endif %}
+</section>
+{% endblock %}

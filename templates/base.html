@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or "HisabAI" }} · HisabAI</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-icon">₹</span><span>HisabAI</span></a>
+    <nav>
+      <a href="/">▦ <span>Dashboard</span></a>
+      <a href="/invoices/new">＋ <span>Create Invoice</span></a>
+      <a href="/clients">♙ <span>Clients</span></a>
+      <a href="/expenses/import">⌁ <span>Scan Receipt</span></a>
+      <a href="/expenses">▤ <span>Expenses</span></a>
+      <a href="/settings">⚙ <span>Settings</span></a>
+    </nav>
+    <div class="local-note">
+      <div><b>Local Business Assistant</b><small>Your Data stay on this Computer</small></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>{{ title or "Dashboard" }}</h1>
+      </div>
+      <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button"
+          aria-label="Toggle light and dark mode" title="Toggle light/dark mode">◐ <span>Theme</span></button><a
+          class="button primary" href="/invoices/new">＋ New Invoice</a></div>
+    </header>
+    {% block content %}{% endblock %}
+    <footer>HisabAI · Local Business Assistant</footer>
+  </main>
+  <script>
+    (function () {
+      const key = "hisabai-theme";
+      const saved = localStorage.getItem(key);
+      if (saved === "dark" || saved === "light") document.documentElement.dataset.theme = saved;
+      const button = document.getElementById("theme-toggle");
+      function syncLabel() {
+        if (!button) return;
+        const dark = document.documentElement.dataset.theme === "dark";
+        button.innerHTML = (dark ? "☀" : "◐") + " <span>" + (dark ? "Light Mode" : "Dark Mode") + "</span>";
+        button.setAttribute("aria-label", dark ? "Switch to Light Mode" : "Switch to Dark Mode");
+      }
+      syncLabel();
+      button && button.addEventListener("click", function () {
+        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem(key, next);
+        syncLabel();
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% block content %}
+{% if warning %}<div class="alert warning">{{ warning }}</div>{% endif %}
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>Review extracted fields</h3>
+            <p>Source file: {{ filename }} · Verify before saving to your books.</p>
+        </div><span class="status unpaid">{{ data.method }}</span>
+    </div>
+    <form method="post" action="/expenses/save" class="form">
+        <input type="hidden" name="source_filename" value="{{ filename }}"><input type="hidden" name="raw_text"
+            value="{{ raw_text|e }}"><input type="hidden" name="ai_used" value="{{ 1 if data.ai_used else 0 }}">
+        <div class="form-row"><label>Vendor<input name="vendor" value="{{ data.vendor or '' }}"></label><label>Invoice
+                number<input name="invoice_number" value="{{ data.invoice_number or '' }}"></label></div>
+        <div class="form-row"><label>Invoice date<input name="invoice_date" value="{{ data.invoice_date or '' }}"
+                    placeholder="YYYY-MM-DD"></label><label>Supplier GSTIN<input name="gstin"
+                    value="{{ data.gstin or '' }}"></label></div>
+        <div class="form-row"><label>Taxable value (₹)<input name="taxable_value"
+                    value="{{ data.taxable_value or '0.00' }}" required></label><label>Total (₹)<input name="total"
+                    value="{{ data.total or '0.00' }}" required></label></div>
+        <div class="form-row three"><label>CGST<input name="cgst"
+                    value="{{ data.cgst or '0.00' }}"></label><label>SGST<input name="sgst"
+                    value="{{ data.sgst or '0.00' }}"></label><label>IGST<input name="igst"
+                    value="{{ data.igst or '0.00' }}"></label></div>
+        <label>Category<input name="category" value="{{ data.category or 'Uncategorized' }}"></label>
+        <details>
+            <summary>Show extracted source text</summary>
+            <pre class="raw-text">{{ raw_text }}</pre>
+        </details>
+        <div class="form-actions"><a class="button secondary" href="/expenses/import">Discard</a><button
+                class="button primary">Confirm & save expense</button></div>
+    </form>
+</div>
+{% endblock %}

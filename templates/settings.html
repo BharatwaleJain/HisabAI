@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block content %}
+{% if saved %}<div class="alert success">Business profile saved locally.</div>{% endif %}
+<div class="content-grid">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Your business profile</h3>
+                <p>These details appear on generated invoice PDFs.</p>
+            </div>
+        </div>
+        <form method="post" action="/settings" class="form">
+            <label>Business or freelancer name<input name="business_name" value="{{ settings.business_name }}"
+                    placeholder="e.g. Aarya Design Studio" required></label>
+            <label>GSTIN <span class="muted">(optional if not registered)</span><input name="gstin"
+                    value="{{ settings.gstin }}" placeholder="15-character GSTIN"></label>
+            <label>Business address<textarea name="address" rows="3"
+                    placeholder="Street, city, PIN code">{{ settings.address }}</textarea></label>
+            <div class="form-row"><label>State / Union Territory<input name="state" value="{{ settings.state }}"
+                        placeholder="e.g. Karnataka"></label><label>Phone<input name="phone"
+                        value="{{ settings.phone }}" placeholder="+91 ..."></label></div>
+            <label>Email<input type="email" name="email" value="{{ settings.email }}"
+                    placeholder="you@example.com"></label>
+            <div class="form-actions"><button class="button primary">Save business profile</button></div>
+        </form>
+    </section>
+    <aside class="panel soft">
+        <h3>Local by default</h3>
+        <p>Your profile is stored in a SQLite database on this computer. The app does not upload it to a hosted service.
+        </p>
+        <hr>
+        <h4>Before you issue invoices</h4>
+        <p>Confirm registration status, applicable GST treatment, place of supply, invoice particulars, and any
+            e-invoicing obligations with an accountant or official guidance.</p>
+    </aside>
+</div>
+{% endblock %}

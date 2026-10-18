@@ -1,0 +1,33 @@
+{% extends "base.html" %}{% block content %}
+{% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+<div class="content-grid">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h3>Import a receipt or supplier invoice</h3>
+                <p>Your files are processed on this computer.</p>
+            </div><span class="pill">PRIVATE BY DESIGN</span>
+        </div>
+        <form method="post" action="/expenses/import" enctype="multipart/form-data" class="form">
+            <div class="upload-zone">
+                <span class="upload-icon">↑</span>
+                <h3>Choose a document</h3>
+                <p>PDF, JPG, PNG, TIFF, WEBP, TXT or CSV · max 15 MB</p><input type="file" name="file" required accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.bmp,.webp,.txt,.csv">
+            </div>
+            <button class="button primary">Extract fields locally →</button>
+        </form>
+        <div class="info-strip"><b>What happens next?</b>
+            <p>The app extracts text, tries the configured local Ollama model, and falls back to conservative local patterns if the model is unavailable. You review every field before saving.</p>
+        </div>
+    </section>
+    <aside class="panel soft">
+        <h3>Private processing</h3>
+        <p>AI inference runs through your local Ollama service. Your documents are not sent to a remote AI API.</p>
+        <hr>
+        <h4>OCR requirement</h4>
+        <p>For image receipts, install Tesseract OCR separately. Text-based PDFs can be read directly; scanned PDFs may need a future OCR pass.</p>
+        <h4>Model setup</h4><code>ollama pull llama3.1:8b</code>
+        <p class="small muted">If no model is installed, the local fallback still lets you test the workflow.</p>
+    </aside>
+</div>
+{% endblock %}

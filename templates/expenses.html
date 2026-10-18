@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% block content %}
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>Expense ledger</h3>
+            <p>Imported receipts and supplier invoices reviewed by you.</p>
+        </div>
+        <div class="head-actions"><a class="button secondary" href="/export/expenses.csv">↓ Export CSV</a><a
+                class="button primary" href="/expenses/import">＋ Import receipt</a></div>
+    </div>
+    {% if expenses %}<div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Vendor / source</th>
+                    <th>Invoice</th>
+                    <th>Date</th>
+                    <th>Taxable value</th>
+                    <th>GST total</th>
+                    <th>Total</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>{% for e in expenses %}<tr>
+                    <td>{{ e.vendor or "Unknown vendor" }}<small>{{ e.source_filename }}</small></td>
+                    <td>{{ e.invoice_number or "—" }}<small>{{ e.gstin or "No GSTIN detected" }}</small></td>
+                    <td>{{ e.invoice_date or "—" }}</td>
+                    <td>₹{{ e.taxable_value }}</td>
+                    <td>₹{{ "%.2f"|format((e.cgst|float)+(e.sgst|float)+(e.igst|float)) }}</td>
+                    <td><b>₹{{ e.total }}</b></td>
+                    <td>{{ e.category }}</td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>{% else %}<div class="empty"><span>⌁</span><b>No expenses yet</b>
+        <p>Import a receipt to try local extraction.</p><a class="button primary" href="/expenses/import">Import
+            receipt</a>
+    </div>{% endif %}
+</div>
+{% endblock %}
